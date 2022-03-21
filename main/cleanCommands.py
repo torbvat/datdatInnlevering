@@ -11,8 +11,9 @@ def newForedlingsmetode():
     print("beskrivelse:")
     v2 = input()
     # litt usikker om det er nødvendig å sjekke om den allerede finnes.
-    string = ("""INSERT INTO Foredlingsmetode (foredlingsnavn, beskrivelse) VALUES (?,?);""", (v1, v2))
-    return string
+    string = """INSERT INTO Foredlingsmetode (foredlingsnavn, beskrivelse) VALUES (?,?);"""
+    args = (v1, v2)
+    return string, args
 
 def newRegioner():
     print("navn:")
@@ -20,8 +21,9 @@ def newRegioner():
     print("land:")
     v2 = input()
 
-    string = ("""INSERT INTO Regioner (navn, land) VALUES (?,?);""", (v1, v2))
-    return string
+    string = """INSERT INTO Regioner (navn, land) VALUES (?,?);"""
+    args = (v1, v2)
+    return string,args
         
 
 def newKaffegaard():
@@ -32,8 +34,9 @@ def newKaffegaard():
     print("regionId:")
     v3 = int(input())
 
-    string = ("""INSERT INTO Kaffegaard (moh, navn, region) VALUES (?,?,?);""", (v2, v1,v3))
-    return string
+    string = """INSERT INTO Kaffegaard (moh, navn, region) VALUES (?,?,?);"""
+    args = (v2, v1,v3)
+    return string, args
 
 
 def newKaffeParti():
@@ -46,8 +49,9 @@ def newKaffeParti():
     print("innhøstelsesår:")
     v4 = int(input())
 
-    string = ("""INSERT INTO Kaffegaard (foreldringsnavn, kilopris, gaardID,innhøstelsesår) VALUES (?,?,?,?);""", (v1, v2,v3,v4))
-    return string
+    string = """INSERT INTO Kaffegaard (foreldringsnavn, kilopris, gaardID,innhøstelsesår) VALUES (?,?,?,?);"""
+    args = (v1, v2,v3,v4)
+    return string, args
 
 def newFerdigbrentKaffe():
     print("kaffeNavn:")
@@ -65,11 +69,12 @@ def newFerdigbrentKaffe():
     print("kilopris:")
     v7 = float(input())
 
-    string = ("""INSERT INTO FerdigbrentKaffe (kaffeNavn, partiID, dato, brenneri, brenningsgrad, beskrivelse, kilopris ) VALUES (?,?,?,?,?,?,?);""", (v1, v2,v3,v4,v5,v6,v7))
-    return string
+    string = """INSERT INTO FerdigbrentKaffe (kaffeNavn, partiID, dato, brenneri, brenningsgrad, beskrivelse, kilopris ) VALUES (?,?,?,?,?,?,?);"""
+    args = (v1, v2,v3,v4,v5,v6,v7)
+    return string, args
       
 
-def SortSqlString(table):
+def sortSqlString(table):
     # if table == "Bruker":
     #     return newBruker()
     if table == "Foredlingsmetode":
@@ -98,12 +103,12 @@ def SortSqlString(table):
 
 def insert(table):
     connection = None
-    sqlString = newFerdigbrentKaffe()
+    sqlString, args = sortSqlString(table)
 
     try:
         connection = sql.connect(db_file())
         cursor = connection.cursor()
-        cursor.execute(sqlString)
+        cursor.execute(sqlString,args)
         connection.commit()
 
     except Error as e:
@@ -113,29 +118,5 @@ def insert(table):
             connection.close()
 
 
-def newKaffeSmaking(email):
-    print("kaffeNavn:")
-    v1 = input()
-    print("brennerinavn:")
-    v2 = (input())
-    print("din vurdering, 0-10")
-    v3 = int(input())
-    print("kommentar:")
-
-    connection = None
-
-    try:
-        connection = sql.connect(db_file())
-        print(sql.version)
-        cursor = connection.cursor()
-        cursor.execute("""INSERT INTO FerdigbrentKaffe (email, kaffeNavn, brenneri, tidspunkt, score, kommentar ) VALUES (?,?,?,?,?,?);
-        """, (email,v1, v2, None, v3, v4, v5, v6, v7))
-        connection.commit()
-
-    except Error as e:
-        print(e)
-    finally:
-        if connection:
-            connection.close()
 
 newKaffeSmaking("test@ntnu.no")
