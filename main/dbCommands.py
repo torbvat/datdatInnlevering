@@ -1,5 +1,7 @@
+from hashlib import new
 import sqlite3 as sql
 from sqlite3 import Error
+from datetime import datetime as d
 
 db_file = "C:\\Users\\torbj\\OneDrive\\Documentos\\Studie\\VAR-SEMESTER-2022\\Database\\Prosjekt\\datdatInnlevering\\main\\databaser\\database.db"
 def db_file():
@@ -287,8 +289,10 @@ def newKaffeSmaking(email):
     v2 = (input())
     print("din vurdering, 0-10")
     v3 = int(input())
-    print("kommentar:")
-    
+    print("smaksnotat:")
+    v4 = (input())
+    # print("når ble kaffen brent:")
+    # v5 = (input())
 
     connection = None
 
@@ -296,8 +300,8 @@ def newKaffeSmaking(email):
         connection = sql.connect(db_file())
         print(sql.version)
         cursor = connection.cursor()
-        cursor.execute("""INSERT INTO FerdigbrentKaffe (email, kaffeNavn, brenneri, tidspunkt, score, kommentar ) VALUES (?,?,?,?,?,?);
-        """, (email,v1, v2, None, v3, v4, v5, v6, v7))
+        cursor.execute("""INSERT INTO KaffeSmaking (email, kaffeNavn, brenneri, tidspunkt, score, kommentar ) VALUES (?,?,?,?,?,?);
+        """, (email,v1, v2, d.now().strftime("%Y-%m-%d %H:%M:%S"), v3, v4))
         connection.commit()
 
     except Error as e:
@@ -305,3 +309,71 @@ def newKaffeSmaking(email):
     finally:
         if connection:
             connection.close()
+
+def newKaffeBonne():
+    print("navn:")
+    v1 = input()
+    print("art:")
+    v2 = (input())
+
+    connection = None
+
+    try:
+        connection = sql.connect(db_file())
+        print(sql.version)
+        cursor = connection.cursor()
+        cursor.execute("""INSERT INTO KaffeBonne (navn, art) VALUES (?,?);
+        """, (v1, v2))
+        connection.commit()
+
+    except Error as e:
+        print(e)
+    finally:
+        if connection:
+            connection.close()
+
+
+def newBestaarAv():
+    print("partiID:")
+    v1 = int(input())
+    print("navn på kaffebonne:")
+    v2 = (input())
+
+    connection = None
+
+    try:
+        connection = sql.connect(db_file())
+        print(sql.version)
+        cursor = connection.cursor()
+        cursor.execute("""INSERT INTO BestaarAv (navn, art) VALUES (?,?);
+        """, (v1, v2))
+        connection.commit()
+
+    except Error as e:
+        print(e)
+    finally:
+        if connection:
+            connection.close()
+
+def newDyrketAv():
+    print("navn på kaffebønne:")
+    v1 = int(input())
+    print("gård id:")
+    v2 = (input())
+
+    connection = None
+
+    try:
+        connection = sql.connect(db_file())
+        print(sql.version)
+        cursor = connection.cursor()
+        cursor.execute("""INSERT INTO BestaarAv (navn, art) VALUES (?,?);
+        """, (v1, v2))
+        connection.commit()
+
+    except Error as e:
+        print(e)
+    finally:
+        if connection:
+            connection.close()
+newFerdigbrentKaffe()

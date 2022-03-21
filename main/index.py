@@ -147,22 +147,26 @@ if session:
 #      ORDER BY Gjennomsnittsscore DESC
 #     """)
 #     data = cursor.fetchall()
+    # print(data)
 #     return data
 
-#Brukerhistorie 4:
+# Brukerhistorie 4: (funker)
 # def floral_kaffe():
-#     connection = sql.connect(db_file)
+#     connection = sql.connect(db_file())
 #     print(sql.version)
 #     cursor = connection.cursor()
+    
 #     cursor.execute("""
 #         SELECT 
 #         FerdigbrentKaffe.kaffeNavn,
 #         FerdigbrentKaffe.brenneri
 #         FROM FerdigbrentKaffe
 #         INNER JOIN KaffeSmaking ON (KaffeSmaking.kaffeNavn=FerdigbrentKaffe.kaffeNavn)  
-#         WHERE lower(KaffeSmaking.kommentar) = "%floral%" OR lower(FerdigbrentKaffe.beskrivelse) = "%floral%"
+#         WHERE lower(KaffeSmaking.kommentar) LIKE '%floral%' 
+#         OR lower(FerdigbrentKaffe.beskrivelse) LIKE '%floral%'
 #     """)
 #     data = cursor.fetchall()
+#     print(data)
 #     return data
 
 #Brukerhistorie 5:
@@ -184,7 +188,6 @@ if session:
 #         AND Regioner.land LIKE "Colombia"
 #     """)
 #     data = cursor.fetchall()
+    # print(data)
 # return data
-
-
 

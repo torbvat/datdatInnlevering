@@ -138,5 +138,4 @@ def newKaffeSmaking(email):
         if connection:
             connection.close()
 
-
-print(newFerdigbrentKaffe())
+newKaffeSmaking("test@ntnu.no")
