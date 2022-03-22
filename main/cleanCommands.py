@@ -5,11 +5,37 @@ from sqlite3 import Error
 def db_file():
     return str("C:\\Users\\torbj\\OneDrive\\Documentos\\Studie\\VAR-SEMESTER-2022\\Database\\Prosjekt\\datdatInnlevering\\main\\databaser\\database.db")
 
+
+def cleanInput(dataType):
+    print("input her")
+    userinput = str(input())
+    
+    if dataType == int:
+        if not type(eval(userinput)) == dataType:
+                print("du må skrive et heltall, prøv igjen")
+                cleanInput(dataType)
+    elif dataType == float:
+        if not (type(eval(userinput)) == int or type(eval(userinput)) == float):
+                print("du må skrive et heltall eller desimaltall, prøv igjen")
+                cleanInput(dataType)
+    else:
+        userinput = str(userinput)
+    
+    special_characters = """!#$%^&*()-+?_=,<>/'";"""
+    if any(letter in special_characters for letter in userinput):
+        print("du kan ikke bruke spesialtegn, prøv igjen")
+        cleanInput(dataType)
+    else:
+        return userinput
+
+
+
+
 def newForedlingsmetode():
     print("foredlingsnavn:")
-    v1 = input()
+    v1 = cleanInput()
     print("beskrivelse:")
-    v2 = input()
+    v2 = cleanInput()
     # litt usikker om det er nødvendig å sjekke om den allerede finnes.
     string = """INSERT INTO Foredlingsmetode (foredlingsnavn, beskrivelse) VALUES (?,?);"""
     args = (v1, v2)
@@ -17,9 +43,9 @@ def newForedlingsmetode():
 
 def newRegioner():
     print("navn:")
-    v1 = input()
+    v1 = cleanInput()
     print("land:")
-    v2 = input()
+    v2 = cleanInput()
 
     string = """INSERT INTO Regioner (navn, land) VALUES (?,?);"""
     args = (v1, v2)
@@ -71,6 +97,17 @@ def newFerdigbrentKaffe():
 
     string = """INSERT INTO FerdigbrentKaffe (kaffeNavn, partiID, dato, brenneri, brenningsgrad, beskrivelse, kilopris ) VALUES (?,?,?,?,?,?,?);"""
     args = (v1, v2,v3,v4,v5,v6,v7)
+    return string, args
+
+
+def newKaffeBonne():
+    print("navn:")
+    v1 = input()
+    print("art:")
+    v2 = (input())
+
+    string = """INSERT INTO KaffeBonne (navn, art) VALUES (?,?);"""
+    args = (v1, v2)
     return string, args
       
 
