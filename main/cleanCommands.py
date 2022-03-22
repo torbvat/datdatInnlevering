@@ -1,6 +1,7 @@
 
 import sqlite3 as sql
 from sqlite3 import Error
+from datetime import datetime as d
 
 def db_file():
     return str("C:\\Users\\torbj\\OneDrive\\Documentos\\Studie\\VAR-SEMESTER-2022\\Database\\Prosjekt\\datdatInnlevering\\main\\databaser\\database.db")
@@ -33,9 +34,9 @@ def cleanInput(dataType):
 
 def newForedlingsmetode():
     print("foredlingsnavn:")
-    v1 = cleanInput()
+    v1 = cleanInput(str)
     print("beskrivelse:")
-    v2 = cleanInput()
+    v2 = cleanInput(str)
     # litt usikker om det er nødvendig å sjekke om den allerede finnes.
     string = """INSERT INTO Foredlingsmetode (foredlingsnavn, beskrivelse) VALUES (?,?);"""
     args = (v1, v2)
@@ -43,9 +44,9 @@ def newForedlingsmetode():
 
 def newRegioner():
     print("navn:")
-    v1 = cleanInput()
+    v1 = cleanInput(str)
     print("land:")
-    v2 = cleanInput()
+    v2 = cleanInput(str)
 
     string = """INSERT INTO Regioner (navn, land) VALUES (?,?);"""
     args = (v1, v2)
@@ -54,11 +55,11 @@ def newRegioner():
 
 def newKaffegaard():
     print("navn:")
-    v1 = input()
+    v1 = cleanInput(str)
     print("moh:")
-    v2 = input()
+    v2 = cleanInput(str)
     print("regionId:")
-    v3 = int(input())
+    v3 = cleanInput(int)
 
     string = """INSERT INTO Kaffegaard (moh, navn, region) VALUES (?,?,?);"""
     args = (v2, v1,v3)
@@ -67,13 +68,13 @@ def newKaffegaard():
 
 def newKaffeParti():
     print("foreldringsnavn(nb navnet må finnes i foredlingstabellen):")
-    v1 = input()
+    v1 = cleanInput(str)
     print("kilopris:")
-    v2 = float(input())
+    v2 = cleanInput(float)
     print("gaardID:")
-    v3 = int(input())
+    v3 = cleanInput(int)
     print("innhøstelsesår:")
-    v4 = int(input())
+    v4 = cleanInput(int)
 
     string = """INSERT INTO Kaffegaard (foreldringsnavn, kilopris, gaardID,innhøstelsesår) VALUES (?,?,?,?);"""
     args = (v1, v2,v3,v4)
@@ -81,19 +82,19 @@ def newKaffeParti():
 
 def newFerdigbrentKaffe():
     print("kaffeNavn:")
-    v1 = input()
+    v1 = cleanInput(str)
     print("partiID:")
-    v2 = int(input())
+    v2 = cleanInput(int)
     print("dato YYYY-MM-DD:")
-    v3 = (input())
+    v3 = cleanInput(str)
     print("brennerinavn:")
-    v4 = (input())
+    v4 = cleanInput(str)
     print("brenningsgrad:")
-    v5 = (input())
+    v5 = cleanInput(str)
     print("beskrivelse:")
-    v6 = (input())
+    v6 = cleanInput(str)
     print("kilopris:")
-    v7 = float(input())
+    v7 = cleanInput(float)
 
     string = """INSERT INTO FerdigbrentKaffe (kaffeNavn, partiID, dato, brenneri, brenningsgrad, beskrivelse, kilopris ) VALUES (?,?,?,?,?,?,?);"""
     args = (v1, v2,v3,v4,v5,v6,v7)
@@ -102,13 +103,34 @@ def newFerdigbrentKaffe():
 
 def newKaffeBonne():
     print("navn:")
-    v1 = input()
+    v1 = cleanInput(str)
     print("art:")
-    v2 = (input())
+    v2 = cleanInput(str)
 
     string = """INSERT INTO KaffeBonne (navn, art) VALUES (?,?);"""
     args = (v1, v2)
     return string, args
+
+def newBestaarAv():
+    print("partiID:")
+    v1 = cleanInput(int)
+    print("navn på kaffebonne:")
+    v2 = cleanInput(str)
+        
+    string = """INSERT INTO BestaarAv (navn, art) VALUES (?,?);"""
+    args = (v1, v2)
+    return string, args
+
+def newDyrketAv():
+    print("navn på kaffebønne:")
+    v1 = cleanInput(str)
+    print("gård id:")
+    v2 = cleanInput(int)
+
+    string = """INSERT INTO BestaarAv (navn, art) VALUES (?,?);""" 
+    args = (v1, v2)
+    return string, args
+
       
 
 def sortSqlString(table):
@@ -155,5 +177,33 @@ def insert(table):
             connection.close()
 
 
+def newKaffeSmaking(email):
+    print("kaffeNavn:")
+    v1 = cleanInput(str)
+    print("brennerinavn:")
+    v2 = cleanInput(str)
+    print("din vurdering, 0-10")
+    v3 = cleanInput(float)
+    print("smaksnotat:")
+    v4 = cleanInput(str)
+    # print("når ble kaffen brent:")
+    # v5 = (input())
 
-newKaffeSmaking("test@ntnu.no")
+    connection = None
+
+    try:
+        connection = sql.connect(db_file())
+        print(sql.version)
+        cursor = connection.cursor()
+        cursor.execute("""INSERT INTO KaffeSmaking (email, kaffeNavn, brenneri, tidspunkt, score, kommentar ) VALUES (?,?,?,?,?,?);
+        """, (email,v1, v2, d.now().strftime("%Y-%m-%d %H:%M:%S"), v3, v4))
+        connection.commit()
+
+    except Error as e:
+        print(e)
+    finally:
+        if connection:
+            connection.close()
+
+
+#newKaffeSmaking("test@ntnu.no")

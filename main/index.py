@@ -1,6 +1,7 @@
 import sqlite3 as sql
 from sqlite3 import Error
 import hashlib 
+import cleanCommands as command
 
 class User:
     def __init__(self,full_name, password, mail):
@@ -19,17 +20,21 @@ def db_file():
     return str("C:\\Users\\torbj\\OneDrive\\Documentos\\Studie\\VAR-SEMESTER-2022\\Database\\Prosjekt\\datdatInnlevering\\main\\databaser\\database.db")
 
 
-def hash(string):
-    return str(hashlib.sha9(string.encode()))
-
+def hashInput(string):
+    hashed = (hashlib.sha256(string.encode()))
+    hex_dig = hashed.hexdigest()
+    return hex_dig
     
 
 def login():
     try:
         connection = sql.connect(db_file())
         cursor = connection.cursor()
-        mail = input("Skriv din e-postadresse:")
-        password = input("Skriv ditt passord: ")
+        print("Skriv din e-postadresse:")
+        mail = command.cleanInput(str)
+        print("Skriv ditt passord: ")
+        password = command.cleanInput(str)
+        #password = hashInput(command.cleanInput(str))   hvis vi skal hashe
         cursor.execute("SELECT email, passord, navn FROM Bruker WHERE email = ?", (mail,))
         data=cursor.fetchall()
         if len(data)!=0:
@@ -75,11 +80,12 @@ def exists(table, element, condition, cursor):
 
 def newUser():
     print("epost:")
-    email = input()
+    email = command.cleanInput(str)
     print("fullt navn:")
-    name = input()
+    name = command.cleanInput(str)
     print("passord:")
-    password = input()
+    password = command.cleanInput(str)
+    #password = hashInput(command.cleanInput(str))   hvis vi skal hashe
     connection = None
     try:
 

@@ -17,7 +17,7 @@ try:
         # """CREATE TABLE Bruker (
         #     email varchar(30) NOT NULL,
         #     navn varchar(50),
-        #     passord varchar(20) NOT NULL,
+        #     passord varchar(150) NOT NULL,
         #     CONSTRAINT Bruker_PK PRIMARY KEY (email)
         # );""")
     # cursor.execute("""
