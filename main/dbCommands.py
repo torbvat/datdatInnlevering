@@ -46,16 +46,19 @@ try:
     #         ON UPDATE CASCADE
     #         ON DELETE NO ACTION
     #     );
-    # """)
+    # """)'
+
+    # cursor.execute("""DROP TABLE KaffeParti""")
+
     # cursor.execute("""
     #     CREATE TABLE KaffeParti (
     #     partiID integer NOT NULL,
-    #     foreldringsnavn varchar(30) NOT NULL,
+    #     foredlingsnavn varchar(30) NOT NULL,
     #     kilopris real,
     #     gaardID integer NOT NULL,
     #     innhoestelsesaar integer(4),
     #     CONSTRAINT kaffeParti_PK PRIMARY KEY (partiID),
-    #     CONSTRAINT kaffeParti_FK1 FOREIGN KEY (foreldringsnavn) REFERENCES Foredlingsmetode(foredlingsnavn)
+    #     CONSTRAINT kaffeParti_FK1 FOREIGN KEY (foredlingsnavn) REFERENCES Foredlingsmetode(foredlingsnavn)
     #         ON UPDATE CASCADE
     #         ON DELETE NO ACTION,
     #     CONSTRAINT kaffeParti_FK2 FOREIGN KEY (gaardID) REFERENCES Kaffegaard(gaardID)
@@ -224,7 +227,7 @@ def newKaffegaard():
             connection.close()
 
 def newKaffeParti():
-    print("foreldringsnavn(nb navnet må finnes i foredlingstabellen):")
+    print("foredlingsnavn(nb navnet må finnes i foredlingstabellen):")
     v1 = input()
     print("kilopris:")
     v2 = float(input())
@@ -238,7 +241,7 @@ def newKaffeParti():
         connection = sql.connect(db_file())
         print(sql.version)
         cursor = connection.cursor()
-        cursor.execute("""INSERT INTO Kaffegaard (foreldringsnavn, kilopris, gaardID,innhøstelsesår) VALUES (?,?,?,?);
+        cursor.execute("""INSERT INTO KaffeParti (foredlingsnavn, kilopris, gaardID,innhoestelsesaar) VALUES (?,?,?,?);
         """, (v1, v2,v3,v4))
         connection.commit()
 
@@ -377,3 +380,6 @@ def newDyrketAv():
         if connection:
             connection.close()
 newFerdigbrentKaffe()
+
+
+#Vi må få regionID i region-tabell til å overensstemme med regionID i KaffeGaard-tabell
