@@ -105,22 +105,22 @@ def newUser():
             connection.close()
 
 
-print("ny bruker? Y/N")
-userInput = input()
-if userInput == "Y":
-    newUser()
-elif userInput == "N":
-    data = login()
-    if data != None:
-        session = True
-        user = User(data[0][2], data[0][1], data[0][0])
+# print("ny bruker? Y/N")
+# userInput = input()
+# if userInput == "Y":
+#     newUser()
+# elif userInput == "N":
+#     data = login()
+#     if data != None:
+#         session = True
+#         user = User(data[0][2], data[0][1], data[0][0])
 
-if session:
-    pass
+# if session:
+#     pass
 
 #Brukerhistorie 2:
 # def smakt_flest_unike_kaffer(): #Sjekk om dette funker etter at vi har lagt inn data i tabellene
-#     connection = sql.connect(db_file)
+#     connection = sql.connect(db_file())
 #     print(sql.version)
 #     cursor = connection.cursor()
 #     cursor.execute("""
@@ -133,24 +133,25 @@ if session:
 #     return data
 
 #Brukerhistorie 3:
-# def mest_for_pengene():
-#     connection = sql.connect(db_file)
-#     print(sql.version)
-#     cursor = connection.cursor()
-#     cursor.execute("""
-#      SELECT 
-#         FerdigbrentKaffe.kaffeNavn, 
-#         AVG(score) as Gjennomsnittsscore, 
-#         Gjennomsnittsscore/FerdigbrentKaffe.kilopris as Score/pris
-#      FROM KaffeSmaking
-#      INNER JOIN FerdigbrentKaffe ON (KaffeSmaking.kaffeNavn=FerdigbrentKaffe.kaffeNavn)  
-#      ORDER BY Gjennomsnittsscore DESC
-#     """)
-#     data = cursor.fetchall()
-    # print(data)
-#     return data
+def mest_for_pengene():
+    connection = sql.connect(db_file())
+    print(sql.version)
+    cursor = connection.cursor()
+    cursor.execute("""
+     SELECT 
+        FerdigbrentKaffe.kaffeNavn AS Kaffenavn, 
+        AVG(SELECT Score From KaffeSmaking 
+            INNER JOIN FerdigbrentKaffe ON (KaffeSmaking.kaffeNavn=FerdigbrentKaffe.kaffeNavn)) AS Gjennomsnittsscore, 
+        AVG(Gjennomsnittsscore)/FerdigbrentKaffe.kilopris AS 'Score/pris'
+     FROM KaffeSmaking
+     INNER JOIN FerdigbrentKaffe ON (KaffeSmaking.kaffeNavn=FerdigbrentKaffe.kaffeNavn)  
+     ORDER BY 'Score/pris' DESC
+    """)
+    data = cursor.fetchall()
+    print(data)
+    return data
 
-# Brukerhistorie 4: (funker)
+# Brukerhistorie 4: (funker) - kaffen MÅ finnes i både KaffeSmaking OG FerdigbrentKaffe (gir forsåvidt mening)
 # def floral_kaffe():
 #     connection = sql.connect(db_file())
 #     print(sql.version)
@@ -171,8 +172,8 @@ if session:
 
 #Brukerhistorie 5:
 # def ikke_vaskede_fra_Rwanda_eller_Colombia():
-#     connection = sql.connect(db_file)
-#     print(sql.version)
+#     connection = sql.connect(db_file())
+#     print(sql.version)  
 #     cursor = connection.cursor()
 #     cursor.execute("""
 #         SELECT 
@@ -180,14 +181,19 @@ if session:
 #         FerdigbrentKaffe.brenneri
 #         FROM FerdigbrentKaffe
 #             INNER JOIN KaffeParti ON (FerdigbrentKaffe.partiID = KaffeParti.partiID)
-#                 INNER JOIN Foredlingsmetode ON (Foredlingsmetode.foredlingsnavn = KaffeParti.foreldringsnavn)
+#                 INNER JOIN Foredlingsmetode ON (Foredlingsmetode.foredlingsnavn = KaffeParti.foredlingsnavn)
 #                     INNER JOIN KaffeGaard ON (Kaffeparti.gaardID = KaffeGaard.gaardID)
 #                         INNER JOIN Regioner ON (KaffeGaard.region = Regioner.regionID)
-#         WHERE lower(Foredlingsmetode.beskrivelse) NOT LIKE "%vasket%"
-#         AND Regioner.land LIKE "Rwanda"
-#         AND Regioner.land LIKE "Colombia"
+#         WHERE lower(Foredlingsmetode.beskrivelse) NOT LIKE '% vasket %' 
+#         AND (
+#         Regioner.land LIKE 'Rwanda'
+#         OR Regioner.land LIKE 'Colombia'
+#         )
 #     """)
 #     data = cursor.fetchall()
-    # print(data)
-# return data
+#     print(data)
+#     return data
 
+# ikke_vaskede_fra_Rwanda_eller_Colombia() #skal få [kaffenavn3,brennerinavn3]    
+
+mest_for_pengene()
