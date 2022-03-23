@@ -5,7 +5,7 @@ from datetime import datetime as d
 
 
 def db_file():
-    return str("main\\databaser\\database.db")
+    return str("datdatInnlevering\\main\\databaser\\database.db")
 
 
 def cleanInput(dataType):
@@ -170,6 +170,7 @@ def insert(table):
         cursor = connection.cursor()
         cursor.execute(sqlString,args)
         connection.commit()
+        print("Informasjonen er lagt inn i tabellen!")
 
     except Error as e:
         print(e)
@@ -202,8 +203,11 @@ def newKaffeSmaking(email):
         cursor.execute("SELECT * FROM KaffeSmaking WHERE (email = ? AND kaffeNavn= ? AND brenneri = ? AND tidspunkt=? )", (email,v1, v2, tidspunkt,))
         newData=cursor.fetchall()
         if len(newData) != 0:
-            print("vellykket!")
-            print(newData)
+            print("takk for vurdering!")
+            print("Din vurdering:")
+            for element in newData[0]:
+                print(element)
+            print("") # bare for å få litt avstand fra det som kommer under
 
 
         # cursor.execute("SELECT * FROM KaffeSmaking WHERE email = ?", (mail,))
