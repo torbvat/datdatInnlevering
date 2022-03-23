@@ -3,8 +3,9 @@ import sqlite3 as sql
 from sqlite3 import Error
 from datetime import datetime as d
 
+
 def db_file():
-    return str("C:\\Users\\torbj\\OneDrive\\Documentos\\Studie\\VAR-SEMESTER-2022\\Database\\Prosjekt\\datdatInnlevering\\main\\databaser\\database.db")
+    return str("main\\databaser\\database.db")
 
 
 def cleanInput(dataType):
@@ -22,7 +23,7 @@ def cleanInput(dataType):
     else:
         userinput = str(userinput)
     
-    special_characters = """!#$%^&*()-+?_=,<>/'";"""
+    special_characters = """#$%^*()+_=<>/'";"""
     if any(letter in special_characters for letter in userinput):
         print("du kan ikke bruke spesialtegn, prøv igjen")
         cleanInput(dataType)
@@ -186,18 +187,24 @@ def newKaffeSmaking(email):
     v3 = cleanInput(float)
     print("smaksnotat:")
     v4 = cleanInput(str)
-    # print("når ble kaffen brent:")
-    # v5 = (input())
 
     connection = None
 
     try:
         connection = sql.connect(db_file())
         print(sql.version)
+        tidspunkt = d.now().strftime("%Y-%m-%d %H:%M:%S")
         cursor = connection.cursor()
         cursor.execute("""INSERT INTO KaffeSmaking (email, kaffeNavn, brenneri, tidspunkt, score, kommentar ) VALUES (?,?,?,?,?,?);
-        """, (email,v1, v2, d.now().strftime("%Y-%m-%d %H:%M:%S"), v3, v4))
+        """, (email,v1, v2, tidspunkt, v3, v4))
         connection.commit()
+
+        cursor.execute("SELECT * FROM KaffeSmaking WHERE (email = ? AND kaffeNavn= ? AND brenneri = ? AND tidspunkt=? )", (email,v1, v2, tidspunkt,))
+        newData=cursor.fetchall()
+        if len(newData) != 0:
+            print("vellykket!")
+            print(newData)
+
 
         # cursor.execute("SELECT * FROM KaffeSmaking WHERE email = ?", (mail,))
         # data=cursor.fetchall()
@@ -210,4 +217,3 @@ def newKaffeSmaking(email):
 
 
 #newKaffeSmaking("test@ntnu.no")
-sortSqlString(table)

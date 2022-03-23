@@ -3,9 +3,9 @@ import sqlite3 as sql
 from sqlite3 import Error
 from datetime import datetime as d
 
-db_file = "C:\\Users\\torbj\\OneDrive\\Documentos\\Studie\\VAR-SEMESTER-2022\\Database\\Prosjekt\\datdatInnlevering\\main\\databaser\\database.db"
+db_file = "main\\databaser\\database.db"
 def db_file():
-    return str("C:\\Users\\torbj\\OneDrive\\Documentos\\Studie\\VAR-SEMESTER-2022\\Database\\Prosjekt\\datdatInnlevering\\main\\databaser\\database.db")
+    return str("main\\databaser\\database.db")
 
 
 connection = None
@@ -298,8 +298,6 @@ def newKaffeSmaking(email):
     v3 = int(input())
     print("smaksnotat:")
     v4 = (input())
-    # print("når ble kaffen brent:")
-    # v5 = (input())
 
     connection = None
 
@@ -352,7 +350,7 @@ def newBestaarAv():
         connection = sql.connect(db_file())
         print(sql.version)
         cursor = connection.cursor()
-        cursor.execute("""INSERT INTO BestaarAv (navn, art) VALUES (?,?);
+        cursor.execute("""INSERT INTO BestaarAv (partiID, navn) VALUES (?,?);
         """, (v1, v2))
         connection.commit()
 
@@ -364,7 +362,7 @@ def newBestaarAv():
 
 def newDyrketAv():
     print("navn på kaffebønne:")
-    v1 = int(input())
+    v1 = (input())
     print("gård id:")
     v2 = (input())
 
@@ -374,7 +372,7 @@ def newDyrketAv():
         connection = sql.connect(db_file())
         print(sql.version)
         cursor = connection.cursor()
-        cursor.execute("""INSERT INTO BestaarAv (navn, art) VALUES (?,?);
+        cursor.execute("""INSERT INTO DyrketAv (navn, gaardID) VALUES (?,?);
         """, (v1, v2))
         connection.commit()
 
@@ -383,4 +381,5 @@ def newDyrketAv():
     finally:
         if connection:
             connection.close()
-newKaffeParti()
+
+newDyrketAv()
