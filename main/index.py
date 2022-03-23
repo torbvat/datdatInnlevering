@@ -10,30 +10,24 @@ class User:
         self.full_name = full_name
         self.password = password
         self.mail = mail
-
-
-def hashInput(string):
-    hashed = (hashlib.sha256(string.encode()))
-    hex_dig = hashed.hexdigest()
-    return hex_dig
     
 
 #=======================================================================
 # user interface
-user = User("test bruker", "test passord", "test@ntnu.no")
 
-session = True
+
+session = False
 while True:
-    # print("ny bruker? Y/N")
-    # userInput = input()
-    # if (userInput == "Y" or userInput == "y"):
-    #     l.newUser()
-    #     continue
-    # elif (userInput == "N" or userInput == "n"):
-    #     data = l.logIn()
-    #     if data != None:
-    #         session = True
-    #         user = User(data[0][2], data[0][1], data[0][0])
+    print("ny bruker? Y/N")
+    userInput = input()
+    if (userInput == "Y" or userInput == "y"):
+        l.newUser()
+        continue
+    elif (userInput == "N" or userInput == "n"):
+        data = l.logIn()
+        if data != None:
+            session = True
+            user = User(data[0][2], data[0][1], data[0][0])
 
     
     while True:
