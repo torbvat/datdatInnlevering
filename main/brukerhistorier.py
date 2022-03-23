@@ -2,6 +2,23 @@ import sqlite3 as sql
 from sqlite3 import Error
 from datetime import datetime as d
 
+def printTable(table, tablenames):
+    print(tablenames)
+    print("---------------------------------")
+    i = 0
+    for row in table:
+        i += 1
+        #print(*row)
+        string = str(i)
+        for element in row:
+            if string == str(i):
+                string += "   "
+            else: 
+                string += ",   "
+            string += str(element)
+        print(string)
+    print("---------------------------------")
+     
 
 def db_file():
     return str("datdatInnlevering\\main\\databaser\\database.db")
@@ -28,8 +45,11 @@ def Brukerhistorie_1(email):
         cursor.execute("SELECT * FROM KaffeSmaking WHERE (email = ? AND kaffeNavn= ? AND brenneri = ? AND tidspunkt=? )", (email,v1, v2, tidspunkt,))
         newData=cursor.fetchall()
         if len(newData) != 0:
-            print("vellykket!")
-            print(newData)
+            print("takk for vurdering!")
+            print("Din vurdering:")
+            for element in newData[0]:
+                print(element)
+            print("") # bare for å få litt avstand fra det som kommer under
 
     except Error as e:
         print(e)
@@ -52,7 +72,7 @@ def Brukerhistorie_2(): #Funker
         ORDER BY antall DESC
         """)
         data = cursor.fetchall()
-        print(data)
+        printTable(data, "   navn og antall smakte kaffer:")
     except Error as e:
         print(e)
     finally:
@@ -78,7 +98,7 @@ def Brukerhistorie_3():
         #denne var i select, og det skal den ikkke være
         #AVG(Kaffesmaking.score)/FerdigbrentKaffe.kilopris AS 'Gjennomsnittsscore/kilopris'
         data = cursor.fetchall()
-        print(data)
+        printTable(data, "   Brenneri, kaffe, kilopris og gjennomsnittvurdering:")
     except Error as e:
         print(e)
     finally:
@@ -111,7 +131,7 @@ def Brukerhistorie_4():
                     ON FerdigbrentKaffe.kaffeNavn = KaffeSmaking.kaffeNavn
             WHERE lower(KaffeSmaking.kommentar) LIKE '%floral%' 
             OR lower(FerdigbrentKaffe.beskrivelse) LIKE '%floral%'
-            UNION ALL 
+            UNION 
             SELECT DISTINCT KaffeSmaking.brenneri, KaffeSmaking.kaffeNavn
             FROM KaffeSmaking
                 LEFT JOIN FerdigbrentKaffe
@@ -121,7 +141,7 @@ def Brukerhistorie_4():
             
         """)
         data = cursor.fetchall()
-        print(data)
+        printTable(data, "    Brenneri og kaffenavn:")
         
         #Det over er oversatt fra disse spørringene. Lar de bli foreløpig 
         # cursor.execute("""
@@ -165,7 +185,7 @@ def Brukerhistorie_5():
                     AND (Regioner.land LIKE "Rwanda" OR Regioner.land LIKE "Colombia")
         """)
         data = cursor.fetchall()
-        print(data)
+        printTable(data, "   Brenneri og kaffe fra Rwada eller Colombia, som ikke er vasket:")
     except Error as e:
         print(e)
     finally:

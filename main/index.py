@@ -99,6 +99,7 @@ while True:
             continue
 
         elif userInput == "4":
+            print("Du er nå logget ut. Ha en fin dag")
             session = False
             continue
 
