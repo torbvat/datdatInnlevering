@@ -8,7 +8,7 @@ def db_file():
 
 
 def cleanInput(dataType):
-    print("input her")
+    # print("input her")
     userinput = str(input())
     
     if dataType == int:

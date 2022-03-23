@@ -27,6 +27,8 @@ try:
     #     CONSTRAINT Foredlingsmetode_PK PRIMARY KEY (foredlingsnavn)
     #     );
     # """)
+
+    # cursor.execute("""DROP TABLE Regioner""")
     # cursor.execute("""
     #     CREATE TABLE Regioner(
     #     regionID integer NOT NULL,
@@ -35,20 +37,22 @@ try:
     #     CONSTRAINT Regioner_PK PRIMARY KEY (regionID)
     #     );
     # """)
+
+
     # cursor.execute("""
     #     CREATE TABLE Kaffegaard(
     #     gaardID integer NOT NULL,
     #     moh integer,
     #     navn varchar(30),
-    #     region integer,
+    #     regionID integer,
     #     CONSTRAINT Kaffegaard_PK PRIMARY KEY (gaardID),
-    #     CONSTRAINT Kaffegaard_FK1 FOREIGN KEY (region) REFERENCES Regioner(regionID)
+    #     CONSTRAINT Kaffegaard_FK1 FOREIGN KEY (regionID) REFERENCES Regioner(regionID)
     #         ON UPDATE CASCADE
     #         ON DELETE NO ACTION
     #     );
-    # """)'
+    # """)
 
-    # cursor.execute("""DROP TABLE KaffeParti""")
+
 
     # cursor.execute("""
     #     CREATE TABLE KaffeParti (
@@ -216,7 +220,7 @@ def newKaffegaard():
         connection = sql.connect(db_file())
         print(sql.version)
         cursor = connection.cursor()
-        cursor.execute("""INSERT INTO Kaffegaard (moh, navn, region) VALUES (?,?,?);
+        cursor.execute("""INSERT INTO Kaffegaard (moh, navn, regionID) VALUES (?,?,?);
         """, (v2, v1,v3))
         connection.commit()
 
@@ -379,7 +383,4 @@ def newDyrketAv():
     finally:
         if connection:
             connection.close()
-newFerdigbrentKaffe()
-
-
-#Vi må få regionID i region-tabell til å overensstemme med regionID i KaffeGaard-tabell
+newKaffeParti()
