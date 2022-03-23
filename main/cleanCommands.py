@@ -199,6 +199,9 @@ def newKaffeSmaking(email):
         """, (email,v1, v2, d.now().strftime("%Y-%m-%d %H:%M:%S"), v3, v4))
         connection.commit()
 
+        # cursor.execute("SELECT * FROM KaffeSmaking WHERE email = ?", (mail,))
+        # data=cursor.fetchall()
+
     except Error as e:
         print(e)
     finally:
@@ -207,3 +210,4 @@ def newKaffeSmaking(email):
 
 
 #newKaffeSmaking("test@ntnu.no")
+sortSqlString(table)

@@ -101,6 +101,12 @@ def newUser():
             """, (email, name, password))
         
             connection.commit()
+
+        cursor.execute("SELECT email FROM Bruker WHERE email = ?", (email,))
+        newData=cursor.fetchall()
+        if len(newData) != 0:
+            print("vellykket!")
+        
         else:
             print("Brukeren finnes alt")
             
