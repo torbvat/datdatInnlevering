@@ -67,14 +67,16 @@ def Brukerhistorie_3():
         print(sql.version)
         cursor = connection.cursor()
         cursor.execute("""
-            SELECT FerdigbrentKaffe.kaffeNavn, 
-            AVG(KaffeSmaking.score) AS Gjennomsnittsscore, 
-            AVG(Kaffesmaking.score)/FerdigbrentKaffe.kilopris AS 'Gjennomsnittsscore/kilopris'
+            SELECT FerdigbrentKaffe.brenneri, FerdigbrentKaffe.kaffeNavn, 
+            FerdigbrentKaffe.kilopris,
+            AVG(KaffeSmaking.score) AS Gjennomsnittsscore
                 FROM KaffeSmaking
                     INNER JOIN FerdigbrentKaffe ON (KaffeSmaking.kaffeNavn=FerdigbrentKaffe.kaffeNavn)  
             GROUP BY FerdigbrentKaffe.kaffeNavn
-            ORDER BY 'Gjennomsnittsscore/kilopris' DESC;
+            ORDER BY Gjennomsnittsscore/FerdigbrentKaffe.kilopris DESC;
         """)
+        #denne var i select, og det skal den ikkke være
+        #AVG(Kaffesmaking.score)/FerdigbrentKaffe.kilopris AS 'Gjennomsnittsscore/kilopris'
         data = cursor.fetchall()
         print(data)
     except Error as e:
@@ -90,17 +92,56 @@ def Brukerhistorie_4():
         print(sql.version)
         cursor = connection.cursor()
         
+        # torbjørn sin kode, fant en feil, lar bli foreløpig hvis torbjørn har innvendinger. 
+        # cursor.execute("""
+        #     SELECT 
+        #     DISTINCT FerdigbrentKaffe.brenneri, FerdigbrentKaffe.kaffeNavn
+        #     FROM FerdigbrentKaffe
+        #     INNER JOIN KaffeSmaking ON (KaffeSmaking.kaffeNavn=FerdigbrentKaffe.kaffeNavn)  
+        #     WHERE lower(KaffeSmaking.kommentar) LIKE '%floral%' 
+        #     OR lower(FerdigbrentKaffe.beskrivelse) LIKE '%floral%'
+        # """)
+
+        
         cursor.execute("""
             SELECT 
-            DISTINCT FerdigbrentKaffe.kaffeNavn,
-            FerdigbrentKaffe.brenneri
+            DISTINCT FerdigbrentKaffe.brenneri, FerdigbrentKaffe.kaffeNavn
             FROM FerdigbrentKaffe
-            INNER JOIN KaffeSmaking ON (KaffeSmaking.kaffeNavn=FerdigbrentKaffe.kaffeNavn)  
+                LEFT JOIN KaffeSmaking
+                    ON FerdigbrentKaffe.kaffeNavn = KaffeSmaking.kaffeNavn
             WHERE lower(KaffeSmaking.kommentar) LIKE '%floral%' 
             OR lower(FerdigbrentKaffe.beskrivelse) LIKE '%floral%'
+            UNION ALL 
+            SELECT DISTINCT KaffeSmaking.brenneri, KaffeSmaking.kaffeNavn
+            FROM KaffeSmaking
+                LEFT JOIN FerdigbrentKaffe
+                    ON FerdigbrentKaffe.kaffeNavn = KaffeSmaking.kaffeNavn
+            WHERE lower(KaffeSmaking.kommentar) LIKE '%floral%' 
+            OR lower(FerdigbrentKaffe.beskrivelse) LIKE '%floral%'
+            
         """)
         data = cursor.fetchall()
         print(data)
+        
+        #Det over er oversatt fra disse spørringene. Lar de bli foreløpig 
+        # cursor.execute("""
+        #     SELECT 
+        #     DISTINCT FerdigbrentKaffe.brenneri, FerdigbrentKaffe.kaffeNavn
+        #     FROM FerdigbrentKaffe
+    
+        #     WHERE lower(FerdigbrentKaffe.beskrivelse) LIKE '%floral%'
+        # """)
+        # data = cursor.fetchall()
+        # print(data)
+        # cursor.execute("""
+        #     SELECT 
+        #     DISTINCT KaffeSmaking.brenneri, KaffeSmaking.kaffeNavn
+        #     FROM KaffeSmaking
+    
+        #     WHERE lower(KaffeSmaking.kommentar) LIKE '%floral%'
+        # """)
+        # data = cursor.fetchall()
+        # print(data)
     except Error as e:
         print(e)
     finally:

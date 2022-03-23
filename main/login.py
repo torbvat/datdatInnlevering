@@ -21,7 +21,6 @@ def logIn():
         cursor.execute("SELECT email, passord, navn FROM Bruker WHERE email = ?", (mail,))
         data=cursor.fetchall()
         if len(data)!=0:
-            print(data)
             if(data[0][0]==mail and data[0][1]==password):
                 print("Velkommen " + data[0][2] + "!")
                 return data

@@ -1,6 +1,5 @@
 import sqlite3 as sql
 from sqlite3 import Error
-import hashlib 
 import cleanCommands as command
 import login as l
 import brukerhistorier as b
@@ -19,11 +18,11 @@ class User:
 session = False
 while True:
     print("ny bruker? Y/N")
-    userInput = input()
-    if (userInput == "Y" or userInput == "y"):
+    userInput = input().upper()
+    if (userInput == "Y"):
         l.newUser()
         continue
-    elif (userInput == "N" or userInput == "n"):
+    elif (userInput == "N"):
         data = l.logIn()
         if data != None:
             session = True
