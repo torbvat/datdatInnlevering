@@ -125,37 +125,37 @@ def newUser():
 #     pass
 
 #Brukerhistorie 2:
-# def smakt_flest_unike_kaffer(): #Sjekk om dette funker etter at vi har lagt inn data i tabellene
+# def smakt_flest_unike_kaffer(): #Funker
 #     connection = sql.connect(db_file())
 #     print(sql.version)
 #     cursor = connection.cursor()
 #     cursor.execute("""
-#      SELECT COUNT(DISTINCT kaffeNavn) as antall, navn FROM Bruker 
+#      SELECT navn, COUNT(DISTINCT kaffeNavn) as antall FROM Bruker 
 #      INNER JOIN KaffeSmaking ON (Bruker.email = KaffeSmaking.email)
 #      GROUP BY navn 
 #      ORDER BY antall DESC
 #     """)
 #     data = cursor.fetchall()
+#     print(data)
 #     return data
 
-#Brukerhistorie 3:
-def mest_for_pengene():
-    connection = sql.connect(db_file())
-    print(sql.version)
-    cursor = connection.cursor()
-    cursor.execute("""
-     SELECT 
-        FerdigbrentKaffe.kaffeNavn AS Kaffenavn, 
-        AVG(SELECT Score From KaffeSmaking 
-            INNER JOIN FerdigbrentKaffe ON (KaffeSmaking.kaffeNavn=FerdigbrentKaffe.kaffeNavn)) AS Gjennomsnittsscore, 
-        AVG(Gjennomsnittsscore)/FerdigbrentKaffe.kilopris AS 'Score/pris'
-     FROM KaffeSmaking
-     INNER JOIN FerdigbrentKaffe ON (KaffeSmaking.kaffeNavn=FerdigbrentKaffe.kaffeNavn)  
-     ORDER BY 'Score/pris' DESC
-    """)
-    data = cursor.fetchall()
-    print(data)
-    return data
+#Brukerhistorie 3: Funker
+# def mest_for_pengene():
+#     connection = sql.connect(db_file())
+#     print(sql.version)
+#     cursor = connection.cursor()
+#     cursor.execute("""
+#         SELECT FerdigbrentKaffe.kaffeNavn, 
+#         AVG(KaffeSmaking.score) AS Gjennomsnittsscore, 
+#         AVG(Kaffesmaking.score)/FerdigbrentKaffe.kilopris AS 'Gjennomsnittsscore/kilopris'
+#             FROM KaffeSmaking
+#                 INNER JOIN FerdigbrentKaffe ON (KaffeSmaking.kaffeNavn=FerdigbrentKaffe.kaffeNavn)  
+#         GROUP BY FerdigbrentKaffe.kaffeNavn
+#         ORDER BY 'Gjennomsnittsscore/kilopris' DESC;
+#     """)
+#     data = cursor.fetchall()
+#     print(data)
+#     return data
 
 # Brukerhistorie 4: (funker) - kaffen MÅ finnes i både KaffeSmaking OG FerdigbrentKaffe (gir forsåvidt mening)
 # def floral_kaffe():
@@ -176,7 +176,7 @@ def mest_for_pengene():
 #     print(data)
 #     return data
 
-#Brukerhistorie 5:
+#Brukerhistorie 5: #Spør Erlend:)
 # def ikke_vaskede_fra_Rwanda_eller_Colombia():
 #     connection = sql.connect(db_file())
 #     print(sql.version)  
@@ -201,5 +201,3 @@ def mest_for_pengene():
 #     return data
 
 # ikke_vaskede_fra_Rwanda_eller_Colombia() #skal få [kaffenavn3,brennerinavn3]    
-
-mest_for_pengene()
