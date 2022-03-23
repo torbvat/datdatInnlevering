@@ -22,3 +22,12 @@ torbvat@stud.no Test test test 123
 torbvat@stud.ntnu.no Torbjørn Vatne 1234
 torbvat@ntnu.no Torbjørn V 12345
 test2@ntnu.no test2 navn 321
+e r e (her brukte vi bare 1 boktav på alt for rask innlogging)
+
+Forklaring av brukerhistoriene:
+
+Hver av brukerhistoriene er funksjoner som blir kalt på når du gir beskjed om det i grensesnittet. Funkjsonskroppene inneholder en try statement, i tilfelle det er noe galt med databasen, eller om informasjon som skal hentes ikke finnes fra før, eller om informasjon som skal lagres allerede finnes. Hvis det foregår en feil, vil det komme en feilmelding som er importert fra sqlite3, slik at vi får forklart hva som er feilen. Hvis alt går som det skal, returneres informasjonen som skal hentes. Hvis ikke returneres en tom array, som blir behandet i funksjonen printTable. Denne funksjonen skriver informasjonen i terminalen på en oversiktlig måte.
+
+Brukerhistorie 4:
+
+Her skal vi finne navn på brenneri og kaffe for typer kaffe som inneholder ordet "floral" i beskrivelsen av enten brukere eller brennerier. Siden kaffe som er beskrevet på denne måten ikke nødvendigvis trenger å eksistere i begge tabellene, tyder dette på at det kan være nyttig med en outer join, som får med alle radene i tabellene. Problemet med dette er at outer join ikke støttes av sqlite3. Derfor valgte vi å prøve å replikere outer join kommandoen med bruk av union og left join. Dette gjorde vi først ved å bruke FerdigbrentKaffe og joine med KaffeSmaking, og selektere bort de som ikke inneholder floral i beskrivelsen. Da får vi med alle radene fra venstr-siden. Videre tar vi union med de samme operatorene, bare at vi starter med å bruketabellen KaffeSmaking og joine den med en left join med FerdigbrentKaffe. Dermed får vi med den valgte projeksjonen av alle radene i begge tabellene som inneholder ordet "floral" i beskrivelsen.

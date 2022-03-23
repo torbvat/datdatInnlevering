@@ -2,23 +2,7 @@ import sqlite3 as sql
 from sqlite3 import Error
 from datetime import datetime as d
 
-def printTable(table, tablenames):
-    print(tablenames)
-    print("---------------------------------")
-    i = 0
-    for row in table:
-        i += 1
-        #print(*row)
-        string = str(i)
-        for element in row:
-            if string == str(i):
-                string += "   "
-            else: 
-                string += ",   "
-            string += str(element)
-        print(string)
-    print("---------------------------------")
-     
+
 
 def db_file():
     return str("datdatInnlevering\\main\\databaser\\database.db")
@@ -61,6 +45,7 @@ def Brukerhistorie_1(email):
 
 def Brukerhistorie_2(): #Funker
     connection = None
+    data = []
     try:
         connection = sql.connect(db_file())
         print(sql.version)
@@ -72,16 +57,18 @@ def Brukerhistorie_2(): #Funker
         ORDER BY antall DESC
         """)
         data = cursor.fetchall()
-        printTable(data, "   navn og antall smakte kaffer:")
+        
     except Error as e:
         print(e)
     finally:
         if connection:
             connection.close()
+        return data
 
 
 def Brukerhistorie_3():
     connection = None
+    data = []
     try:
         connection = sql.connect(db_file())
         print(sql.version)
@@ -98,15 +85,17 @@ def Brukerhistorie_3():
         #denne var i select, og det skal den ikkke være
         #AVG(Kaffesmaking.score)/FerdigbrentKaffe.kilopris AS 'Gjennomsnittsscore/kilopris'
         data = cursor.fetchall()
-        printTable(data, "   Brenneri, kaffe, kilopris og gjennomsnittvurdering:")
+        
     except Error as e:
         print(e)
     finally:
         if connection:
             connection.close()
+        return data
 
 def Brukerhistorie_4():
     connection = None
+    data = []
     try:
         connection = sql.connect(db_file())
         print(sql.version)
@@ -141,7 +130,7 @@ def Brukerhistorie_4():
             
         """)
         data = cursor.fetchall()
-        printTable(data, "    Brenneri og kaffenavn:")
+        
         
         #Det over er oversatt fra disse spørringene. Lar de bli foreløpig 
         # cursor.execute("""
@@ -167,9 +156,11 @@ def Brukerhistorie_4():
     finally:
         if connection:
             connection.close()
+        return data
 
 def Brukerhistorie_5():
     connection = None
+    data = []
     try:
         connection = sql.connect(db_file())
         print(sql.version)  
@@ -185,9 +176,9 @@ def Brukerhistorie_5():
                     AND (Regioner.land LIKE "Rwanda" OR Regioner.land LIKE "Colombia")
         """)
         data = cursor.fetchall()
-        printTable(data, "   Brenneri og kaffe fra Rwada eller Colombia, som ikke er vasket:")
     except Error as e:
         print(e)
     finally:
         if connection:
             connection.close()
+        return data

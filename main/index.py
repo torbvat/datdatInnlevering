@@ -1,5 +1,4 @@
-import sqlite3 as sql
-from sqlite3 import Error
+
 import cleanCommands as command
 import login as l
 import brukerhistorier as b
@@ -9,6 +8,27 @@ class User:
         self.full_name = full_name
         self.password = password
         self.mail = mail
+
+def printTable(table, tablenames):
+    if len(table) == 0: 
+        print("noe har gått galt")
+        return
+    print(tablenames)
+    print("---------------------------------")
+    i = 0
+    for row in table:
+        i += 1
+        #print(*row)
+        string = str(i)
+        for element in row:
+            if string == str(i):
+                string += "   "
+            else: 
+                string += ",   "
+            string += str(element)
+        print(string)
+    print("---------------------------------")
+     
     
 
 #=======================================================================
@@ -88,13 +108,13 @@ while True:
             if bInput == "1":
                 b.Brukerhistorie_1(user.mail)
             elif bInput == "2":
-                b.Brukerhistorie_2()
+                printTable(b.Brukerhistorie_2(), "   navn og antall smakte kaffer:")
             elif bInput == "3":
-                b.Brukerhistorie_3()
+                printTable(b.Brukerhistorie_3(), "   Brenneri, kaffe, kilopris og gjennomsnittvurdering:")
             elif bInput == "4":
-                b.Brukerhistorie_4()
+                printTable(b.Brukerhistorie_4(), "    Brenneri og kaffenavn:")
             elif bInput == "5":
-                b.Brukerhistorie_5()
+                printTable(b.Brukerhistorie_5(), "   Brenneri og kaffe fra Rwada eller Colombia, som ikke er vasket:")
 
             continue
 
