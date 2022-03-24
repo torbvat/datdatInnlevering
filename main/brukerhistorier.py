@@ -8,7 +8,6 @@ def db_file():
     return str("datdatInnlevering\\main\\databaser\\database.db")
 
 
-#Brukerhistorie 1:
 def Brukerhistorie_1(email):
     v1 = "Vinterkaffe 2022"
     v2 = "Trondheims-brenneriet Jacobsen & Svart"
@@ -33,7 +32,7 @@ def Brukerhistorie_1(email):
             print("Din vurdering:")
             for element in newData[0]:
                 print(element)
-            print("") # bare for å få litt avstand fra det som kommer under
+            print("")
 
     except Error as e:
         print(e)
@@ -43,7 +42,7 @@ def Brukerhistorie_1(email):
 
 
 
-def Brukerhistorie_2(): #Funker
+def Brukerhistorie_2():
     connection = None
     data = []
     try:

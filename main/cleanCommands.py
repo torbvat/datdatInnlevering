@@ -5,11 +5,10 @@ from datetime import datetime as d
 
 
 def db_file():
-    return str("datdatInnlevering\\main\\databaser\\database.db")
+    return str("main\\databaser\\database.db")
 
 
 def cleanInput(dataType):
-    # print("input her")
     userinput = str(input())
     
     if dataType == int:
@@ -144,8 +143,6 @@ def sortSqlString(table):
         return newKaffeParti()
     if table == "FerdigbrentKaffe":
         return newFerdigbrentKaffe()
-    # if table == "KaffeSmaking":
-    #     return newKaffeSmaking()
     if table == "KaffeBonne":
         return newKaffeBonne()
     if table == "BestaarAv":
@@ -204,7 +201,7 @@ def newKaffeSmaking(email):
             print("Din vurdering:")
             for element in newData[0]:
                 print(element)
-            print("") # bare for å få litt avstand fra det som kommer under
+            print("")
 
 
     except Error as e:
@@ -213,3 +210,4 @@ def newKaffeSmaking(email):
         if connection:
             connection.close()
 
+insert("Regioner")
