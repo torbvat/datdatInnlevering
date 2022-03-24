@@ -220,4 +220,11 @@ def newKaffeSmaking(email):
         if connection:
             connection.close()
 
+<<<<<<< HEAD
 insert("Regioner")
+=======
+
+#insert("Regioner")
+
+
+>>>>>>> 1167c96bab5ad59d2a60254ab2284c1c9db04ea6
