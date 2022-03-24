@@ -5,7 +5,7 @@ from datetime import datetime as d
 
 
 def db_file():
-    return str("datdatInnlevering\\main\\databaser\\database.db")
+    return str("main\\databaser\\database.db")
 
 
 def cleanInput(dataType):
@@ -213,3 +213,5 @@ def newKaffeSmaking(email):
         if connection:
             connection.close()
 
+#insert("Regioner")
+#print(__file__)
