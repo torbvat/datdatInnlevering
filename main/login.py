@@ -3,7 +3,10 @@ from sqlite3 import Error
 import hashlib 
 import cleanCommands as command
 
-
+def hashInput(string):
+    hashed = (hashlib.sha256(string.encode()))
+    hex_dig = hashed.hexdigest()
+    return hex_dig
 
 def logIn():
     try:
@@ -13,11 +16,11 @@ def logIn():
         mail = command.cleanInput(str)
         print("Skriv ditt passord: ")
         password = command.cleanInput(str)
-        #password = hashInput(command.cleanInput(str))   hvis vi skal hashe
+        password = hashInput(password)
+        
         cursor.execute("SELECT email, passord, navn FROM Bruker WHERE email = ?", (mail,))
         data=cursor.fetchall()
         if len(data)!=0:
-            print(data)
             if(data[0][0]==mail and data[0][1]==password):
                 print("Velkommen " + data[0][2] + "!")
                 return data
@@ -41,6 +44,7 @@ def newUser():
     name = command.cleanInput(str)
     print("passord:")
     password = command.cleanInput(str)
+    password = hashInput(password)
     #password = hashInput(command.cleanInput(str))   hvis vi skal hashe
     connection = None
     try:
@@ -71,3 +75,36 @@ def newUser():
     finally:
         if connection:
             connection.close()
+
+
+
+def changePassword(email, password):
+
+    password = hashInput(password)
+    connection = None
+
+    try:
+        connection = sql.connect(command.db_file())
+        print(sql.version)
+        cursor = connection.cursor()
+
+        cursor.execute("SELECT email FROM Bruker WHERE email = ?", (email,))
+        data=cursor.fetchall()
+
+        if len(data)!=0:
+            cursor.execute("""UPDATE Bruker SET passord = ? WHERE email = ?;
+            """, (password, email))
+        
+            connection.commit()
+            print("vellykket")
+            cursor.execute("SELECT passord FROM Bruker WHERE email = ?", (email,))
+            data=cursor.fetchall()
+            print(data)
+            
+    except Error as e:
+        print(e)
+    finally:
+        if connection:
+            connection.close()
+
+

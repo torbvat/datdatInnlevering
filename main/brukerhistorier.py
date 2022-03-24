@@ -33,7 +33,7 @@ def Brukerhistorie_1(email):
             print("Din vurdering:")
             for element in newData[0]:
                 print(element)
-            print("") # bare for å få litt avstand fra det som kommer under
+            print("")
 
     except Error as e:
         print(e)
@@ -82,8 +82,6 @@ def Brukerhistorie_3():
             GROUP BY FerdigbrentKaffe.kaffeNavn
             ORDER BY Gjennomsnittsscore/FerdigbrentKaffe.kilopris DESC;
         """)
-        #denne var i select, og det skal den ikkke være
-        #AVG(Kaffesmaking.score)/FerdigbrentKaffe.kilopris AS 'Gjennomsnittsscore/kilopris'
         data = cursor.fetchall()
         
     except Error as e:
@@ -100,18 +98,6 @@ def Brukerhistorie_4():
         connection = sql.connect(db_file())
         print(sql.version)
         cursor = connection.cursor()
-        
-        # torbjørn sin kode, fant en feil, lar bli foreløpig hvis torbjørn har innvendinger. 
-        # cursor.execute("""
-        #     SELECT 
-        #     DISTINCT FerdigbrentKaffe.brenneri, FerdigbrentKaffe.kaffeNavn
-        #     FROM FerdigbrentKaffe
-        #     INNER JOIN KaffeSmaking ON (KaffeSmaking.kaffeNavn=FerdigbrentKaffe.kaffeNavn)  
-        #     WHERE lower(KaffeSmaking.kommentar) LIKE '%floral%' 
-        #     OR lower(FerdigbrentKaffe.beskrivelse) LIKE '%floral%'
-        # """)
-
-        
         cursor.execute("""
             SELECT 
             DISTINCT FerdigbrentKaffe.brenneri, FerdigbrentKaffe.kaffeNavn
@@ -131,26 +117,6 @@ def Brukerhistorie_4():
         """)
         data = cursor.fetchall()
         
-        
-        #Det over er oversatt fra disse spørringene. Lar de bli foreløpig 
-        # cursor.execute("""
-        #     SELECT 
-        #     DISTINCT FerdigbrentKaffe.brenneri, FerdigbrentKaffe.kaffeNavn
-        #     FROM FerdigbrentKaffe
-    
-        #     WHERE lower(FerdigbrentKaffe.beskrivelse) LIKE '%floral%'
-        # """)
-        # data = cursor.fetchall()
-        # print(data)
-        # cursor.execute("""
-        #     SELECT 
-        #     DISTINCT KaffeSmaking.brenneri, KaffeSmaking.kaffeNavn
-        #     FROM KaffeSmaking
-    
-        #     WHERE lower(KaffeSmaking.kommentar) LIKE '%floral%'
-        # """)
-        # data = cursor.fetchall()
-        # print(data)
     except Error as e:
         print(e)
     finally:

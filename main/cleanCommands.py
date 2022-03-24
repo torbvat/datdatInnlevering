@@ -38,7 +38,6 @@ def newForedlingsmetode():
     v1 = cleanInput(str)
     print("beskrivelse:")
     v2 = cleanInput(str)
-    # litt usikker om det er nødvendig å sjekke om den allerede finnes.
     string = """INSERT INTO Foredlingsmetode (foredlingsnavn, beskrivelse) VALUES (?,?);"""
     args = (v1, v2)
     return string, args
@@ -62,7 +61,7 @@ def newKaffegaard():
     print("regionId:")
     v3 = cleanInput(int)
 
-    string = """INSERT INTO Kaffegaard (moh, navn, region) VALUES (?,?,?);"""
+    string = """INSERT INTO Kaffegaard (moh, navn, regionID) VALUES (?,?,?);"""
     args = (v2, v1,v3)
     return string, args
 
@@ -77,7 +76,7 @@ def newKaffeParti():
     print("innhøstelsesår:")
     v4 = cleanInput(int)
 
-    string = """INSERT INTO Kaffegaard (foreldringsnavn, kilopris, gaardID,innhøstelsesår) VALUES (?,?,?,?);"""
+    string = """INSERT INTO KaffeParti (foredlingsnavn, kilopris, gaardID,innhoestelsesaar) VALUES (?,?,?,?);"""
     args = (v1, v2,v3,v4)
     return string, args
 
@@ -118,7 +117,7 @@ def newBestaarAv():
     print("navn på kaffebonne:")
     v2 = cleanInput(str)
         
-    string = """INSERT INTO BestaarAv (navn, art) VALUES (?,?);"""
+    string = """INSERT INTO BestaarAv (partiID, navn) VALUES (?,?);"""
     args = (v1, v2)
     return string, args
 
@@ -128,15 +127,13 @@ def newDyrketAv():
     print("gård id:")
     v2 = cleanInput(int)
 
-    string = """INSERT INTO BestaarAv (navn, art) VALUES (?,?);""" 
+    string = """INSERT INTO BestaarAv (navn, gaardID) VALUES (?,?);""" 
     args = (v1, v2)
     return string, args
 
       
 
 def sortSqlString(table):
-    # if table == "Bruker":
-    #     return newBruker()
     if table == "Foredlingsmetode":
         return newForedlingsmetode()
     if table == "Regioner":
@@ -207,11 +204,7 @@ def newKaffeSmaking(email):
             print("Din vurdering:")
             for element in newData[0]:
                 print(element)
-            print("") # bare for å få litt avstand fra det som kommer under
-
-
-        # cursor.execute("SELECT * FROM KaffeSmaking WHERE email = ?", (mail,))
-        # data=cursor.fetchall()
+            print("")   
 
     except Error as e:
         print(e)
@@ -219,5 +212,4 @@ def newKaffeSmaking(email):
         if connection:
             connection.close()
 
-
-#newKaffeSmaking("test@ntnu.no")
+insert("Regioner")

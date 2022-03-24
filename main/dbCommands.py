@@ -382,4 +382,4 @@ def newDyrketAv():
         if connection:
             connection.close()
 
-newDyrketAv()
+newRegioner()

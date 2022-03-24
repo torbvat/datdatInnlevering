@@ -22,7 +22,7 @@ torbvat@stud.no Test test test 123
 torbvat@stud.ntnu.no Torbjørn Vatne 1234
 torbvat@ntnu.no Torbjørn V 12345
 test2@ntnu.no test2 navn 321
-e r e (her brukte vi bare 1 boktav på alt for rask innlogging)
+e r e (her brukte vi bare 1 bokstav på alt for rask innlogging)
 
 Forklaring av brukerhistoriene:
 
