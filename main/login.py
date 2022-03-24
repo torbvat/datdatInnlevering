@@ -45,7 +45,7 @@ def newUser():
     print("passord:")
     password = command.cleanInput(str)
     password = hashInput(password)
-    #password = hashInput(command.cleanInput(str))   hvis vi skal hashe
+
     connection = None
     try:
 

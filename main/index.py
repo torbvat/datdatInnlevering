@@ -18,10 +18,6 @@ def printTable(table, tablenames):
     i = 0
     for row in table:
         i += 1
-<<<<<<< HEAD
-=======
-        #print(*row)
->>>>>>> 016e269bd35e5c3e16a7a7927b05c11b67a2cc65
         string = str(i)
         for element in row:
             if string == str(i):
