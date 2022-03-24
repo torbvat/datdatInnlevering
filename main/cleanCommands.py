@@ -6,6 +6,8 @@ from datetime import datetime as d
 
 def db_file():
     return str("main\\databaser\\database.db")
+    # if you cannot open database with this path, try datdatInnlevering\\main\\databaser\\database.db
+    # or use the absolute path on your own computer. 
 
 
 def cleanInput(dataType):
@@ -213,5 +215,3 @@ def newKaffeSmaking(email):
         if connection:
             connection.close()
 
-#insert("Regioner")
-#print(__file__)

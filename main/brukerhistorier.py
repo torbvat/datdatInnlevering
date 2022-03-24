@@ -5,7 +5,7 @@ from datetime import datetime as d
 
 
 def db_file():
-    return str("datdatInnlevering\\main\\databaser\\database.db")
+    return str("main\\databaser\\database.db")
 
 
 #Brukerhistorie 1:
