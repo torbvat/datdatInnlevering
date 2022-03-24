@@ -204,7 +204,15 @@ def newKaffeSmaking(email):
             print("Din vurdering:")
             for element in newData[0]:
                 print(element)
+<<<<<<< HEAD
             print("")   
+=======
+            print("") # bare for å få litt avstand fra det som kommer under
+
+
+        # cursor.execute("SELECT * FROM KaffeSmaking WHERE email = ?", (mail,))
+        # data=cursor.fetchall()
+>>>>>>> 016e269bd35e5c3e16a7a7927b05c11b67a2cc65
 
     except Error as e:
         print(e)
