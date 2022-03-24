@@ -220,4 +220,6 @@ def newKaffeSmaking(email):
             connection.close()
 
 
-#newKaffeSmaking("test@ntnu.no")
+#insert("Regioner")
+
+
