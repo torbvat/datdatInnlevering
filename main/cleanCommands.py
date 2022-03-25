@@ -6,6 +6,11 @@ from datetime import datetime as d
 
 def db_file():
     return str("main\\databaser\\database.db")
+<<<<<<< HEAD
+=======
+    # if you cannot open database with this path, try datdatInnlevering\\main\\databaser\\database.db
+    # or use the absolute path on your own computer. 
+>>>>>>> fa99b0f3c2f85342438503698cbc8efd17816bc5
 
 
 def cleanInput(dataType):
